@@ -9,6 +9,7 @@ namespace CastleIOS
     public class AppDelegate : UIApplicationDelegate
     {
         // class-level declarations
+        MainViewController mainViewController = new MainViewController();
 
         public override UIWindow Window
         {
@@ -23,6 +24,7 @@ namespace CastleIOS
 
             // If you have defined a root view controller, set it here:
             // Window.RootViewController = myViewController;
+            Window.RootViewController = mainViewController;
 
             // make the window visible
             Window.MakeKeyAndVisible();
