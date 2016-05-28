@@ -91,6 +91,11 @@
     <Compile Include="MainViewController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <InterfaceDefinition Include="Resources\LaunchScreen.xib" />
+    <InterfaceDefinition Include="CastleMainViewController.xib" />
+    <Compile Include="CastleMainViewController.cs" />
+    <Compile Include="CastleMainViewController.designer.cs">
+      <DependentUpon>CastleMainViewController.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

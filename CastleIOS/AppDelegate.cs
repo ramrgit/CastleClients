@@ -9,7 +9,7 @@ namespace CastleIOS
     public class AppDelegate : UIApplicationDelegate
     {
         // class-level declarations
-        MainViewController mainViewController = new MainViewController();
+        CastleMainViewController mainViewController = new CastleMainViewController();
 
         public override UIWindow Window
         {
