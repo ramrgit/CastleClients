@@ -1,4 +1,7 @@
-﻿using ModernHttpClient;
+﻿using Edison.Castle.Clients.Data.Models;
+using ModernHttpClient;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -16,19 +19,39 @@ namespace Edison.Castle.Clients.Data
 
         }
 
-        public bool GetLocksWithHttpClient()
+        public async Task<bool> GetLocksWithHttpClient()
         {
             HttpClient client = new HttpClient(new NativeMessageHandler());
             client.BaseAddress = new Uri("https://mmsdev.edprop.com/CastleAPI/");
+            string resultJson = string.Empty;
+
             try
             {
-                Task<HttpResponseMessage>  responseTask = client.GetAsync("api/locks");
-                responseTask.Wait();
-                HttpResponseMessage response = responseTask.Result;
+                HttpResponseMessage  response = await client.GetAsync("api/locks");
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("appliation/json"));
 
-                if(response.StatusCode == System.Net.HttpStatusCode.OK)
+                if(response.IsSuccessStatusCode)
                 {
+                    resultJson = await response.Content.ReadAsStringAsync();
+                    dynamic context = JObject.Parse(resultJson);
+                    IEnumerable<Lock> locks = JsonConvert.DeserializeObject<IEnumerable<Lock>>(context["Results"].ToString());
+                    Debug.WriteLine(locks.ToString());
+
                     return (true);
+
+                    #region "Alternate way to Deserialize Json Arrays - override specific properties"
+                    //JArray locksArray = JArray.Parse(context["Results"].ToString());
+                    //IEnumerable<Lock> locks = locksArray.Select(p => new Lock
+                    //{
+                    //    LockId = Guid.Parse(p["LockId"].ToString()),
+                    //    LockName = (string)p["LockName"],
+                    //    LockUUID = Guid.Parse(p["LockUUID"].ToString()),
+                    //    LockMajor = (int)p["LockMajor"],
+                    //    LockMinor = (int)p["LockMinor"]
+                    //}).ToList();
+
+                    #endregion
                 }
                 else
                 {

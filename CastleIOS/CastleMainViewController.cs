@@ -18,12 +18,12 @@ namespace CastleIOS
 			// Perform any additional setup after loading the view, typically from a nib.
 			try
 			{
-                //HttpClient client = new HttpClient
+				//HttpClient client = new HttpClient
 
-                //AuthenticationService authSvc = new AuthenticationService();
-                //var result = await authSvc.Authenticate("blah", "blubber");
-                LockService lockSvc = new LockService();
-                bool result = lockSvc.GetLocksWithHttpClient();
+				//AuthenticationService authSvc = new AuthenticationService();
+				//var result = await authSvc.Authenticate("blah", "blubber");
+				LockService lockSvc = new LockService();
+				bool result = await lockSvc.GetLocksWithHttpClient();
 
 			}
 			catch(Exception ex)
