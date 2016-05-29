@@ -6,8 +6,8 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
+using Portable.Text;
 
 namespace Edison.Castle.Clients.Data
 {
@@ -25,40 +25,19 @@ namespace Edison.Castle.Clients.Data
         {
             try
             {
+                byte[] credentialsByte = Encoding.ASCII.GetBytes(string.Format("{0}:{1}", login, password));
+                _castleClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(credentialsByte));
 
-                HttpWebRequest request = (HttpWebRequest)WebRequest.Create("https://mmsdev.edprop.com/CastleAPI/api/locks");
-                request.Method = "GET";
-                request.ContentType = "application/json";
-                string result = string.Empty;
-                try
+                HttpResponseMessage response = await _castleClient.GetAsync("");
+                if(response.IsSuccessStatusCode)
                 {
-                    
-                    Task<WebResponse> webResponseTask = request.GetResponseAsync();
-                    webResponseTask.Wait();
-                    WebResponse webResponse = webResponseTask.Result;
-                    
-
-                    Stream webStream = webResponse.GetResponseStream();
-                    StreamReader responseReader = new StreamReader(webStream);
-                    result = responseReader.ReadToEnd();
+                    return true;
                 }
-                catch (Exception e)
+                else if (response.StatusCode == HttpStatusCode.Unauthorized)
                 {
-                   
+                    return false;
                 }
-
-
-
-
-                //var response = await _castleClient.GetAsync("api/locks");
-                //if (response.IsSuccessStatusCode)
-                //{
-
-                //}
-
-                //implement a rest client to authenticate and set the 
-                Debug.WriteLine(result);
-                return true;
+                return false;
             }
             catch (Exception ex)
             {

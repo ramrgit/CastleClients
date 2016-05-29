@@ -47,6 +47,10 @@
       <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\portable-net40+sl5+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Portable.Text.Encoding, Version=0.8.3.0, Culture=neutral, PublicKeyToken=96f7b8f9dde885b2, processorArchitecture=MSIL">
+      <HintPath>..\packages\Portable.Text.Encoding.0.8.3.0\lib\portable-net45+win+wpa81+MonoAndroid10+xamarinios10+MonoTouch10\Portable.Text.Encoding.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

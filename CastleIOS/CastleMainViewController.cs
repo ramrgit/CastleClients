@@ -20,11 +20,13 @@ namespace CastleIOS
 			{
 				//HttpClient client = new HttpClient
 
-				//AuthenticationService authSvc = new AuthenticationService();
-				//var result = await authSvc.Authenticate("blah", "blubber");
-				LockService lockSvc = new LockService();
-				bool result = await lockSvc.GetLocksWithHttpClient();
-
+				AuthenticationService authSvc = new AuthenticationService();
+				var result = await authSvc.Authenticate(@"Edison\ramr", "Good12345");
+				if (result)
+				{
+					LockService lockSvc = new LockService();
+					bool lockResult = await lockSvc.GetLocksWithHttpClient();
+				}
 			}
 			catch(Exception ex)
 			{

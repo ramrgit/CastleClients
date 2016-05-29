@@ -14,7 +14,7 @@ namespace CastleClientConsole
     {
         static void Main(string[] args)
         {
-            RunAsync().Wait();
+            RunAsync2().Wait();
         }
 
         static async Task RunAsync()
@@ -38,5 +38,30 @@ namespace CastleClientConsole
 
             }
         }
+
+        static async Task RunAsync2()
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+                client.BaseAddress = new Uri("https://mmsdev.edprop.com/CastleAPI/");
+                //client.DefaultRequestHeaders.Accept.Clear();
+                //client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes(string.Format("{0}:{1}", @"Edison\ramr", "Good12345"))));
+                //client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", "RWRpc29uXHJhbXI6R29vZDEyMzQ1");
+                //Basic RWRpc29uXHJhbXI6R29vZDEyMzQ1
+
+                HttpResponseMessage response = await client.GetAsync("");
+                if (response.IsSuccessStatusCode)
+                {
+                    Console.WriteLine(response.ToString());
+                }
+                else if (response.StatusCode == HttpStatusCode.Unauthorized)
+                {
+                    Console.WriteLine("Unauthorized - " + response.ToString());
+                }
+            }
+        }
+
     }
 }
