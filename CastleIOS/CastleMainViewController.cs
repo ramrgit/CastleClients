@@ -1,5 +1,7 @@
-﻿using System;
-
+﻿using Edison.Castle.Clients.Data;
+using System;
+using System.Diagnostics;
+using System.Net.Http;
 using UIKit;
 
 namespace CastleIOS
@@ -10,10 +12,26 @@ namespace CastleIOS
 		{
 		}
 
-		public override void ViewDidLoad ()
+		public async override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
 			// Perform any additional setup after loading the view, typically from a nib.
+			try
+			{
+                //HttpClient client = new HttpClient
+
+                //AuthenticationService authSvc = new AuthenticationService();
+                //var result = await authSvc.Authenticate("blah", "blubber");
+                LockService lockSvc = new LockService();
+                bool result = lockSvc.GetLocksWithHttpClient();
+
+			}
+			catch(Exception ex)
+			{
+				Debug.WriteLine(ex);
+			}
+			
+
 		}
 
 		public override void DidReceiveMemoryWarning ()
