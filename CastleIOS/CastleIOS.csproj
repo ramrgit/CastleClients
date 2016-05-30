@@ -107,10 +107,19 @@
     <Compile Include="CastleMainViewController.designer.cs">
       <DependentUpon>CastleMainViewController.cs</DependentUpon>
     </Compile>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="ModernHttpClient">
       <HintPath>..\lib\ModernHttpClient.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\portable-net40+sl5+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PerpetualEngine.SimpleStorage.iOS-Unified, Version=1.0.5780.20166, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SimpleStorage.1.4.1\lib\Xamarin.iOS10\PerpetualEngine.SimpleStorage.iOS-Unified.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Net.Http" />

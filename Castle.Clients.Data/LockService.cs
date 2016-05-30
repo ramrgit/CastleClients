@@ -14,8 +14,11 @@ namespace Edison.Castle.Clients.Data
 {
     public class LockService
     {
-        public LockService()
+        private string _authToken = string.Empty;
+
+        public LockService(string authToken)
         {
+            this._authToken = authToken;
 
         }
 
@@ -30,6 +33,7 @@ namespace Edison.Castle.Clients.Data
                 HttpResponseMessage  response = await client.GetAsync("api/locks");
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("appliation/json"));
+                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", _authToken);
 
                 if(response.IsSuccessStatusCode)
                 {
