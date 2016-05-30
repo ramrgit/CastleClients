@@ -31,9 +31,9 @@ namespace Edison.Castle.Clients.Data
             try
             {
                 HttpResponseMessage  response = await client.GetAsync("api/locks");
+                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", _authToken);
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("appliation/json"));
-                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", _authToken);
 
                 if(response.IsSuccessStatusCode)
                 {
