@@ -36,7 +36,7 @@ namespace Edison.Castle.Clients.Data
                     resultJson = await response.Content.ReadAsStringAsync();
                     dynamic context = JObject.Parse(resultJson);
                     IEnumerable<Lock> locks = JsonConvert.DeserializeObject<IEnumerable<Lock>>(context["Results"].ToString());
-                    Debug.WriteLine(locks.ToString());
+                    //Debug.WriteLine(locks.ToString());
 
                     return (true);
 
@@ -60,7 +60,7 @@ namespace Edison.Castle.Clients.Data
             }
             catch(Exception ex)
             {
-                Debug.WriteLine(ex.ToString());
+                //Debug.WriteLine(ex.ToString());
 
             }
 

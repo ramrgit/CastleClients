@@ -41,7 +41,7 @@ namespace Edison.Castle.Clients.Data
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex);
+                //Debug.WriteLine(ex);
                 return false;
             }
             
