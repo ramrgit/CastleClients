@@ -1,6 +1,8 @@
 ﻿using Edison.Castle.Clients.Data;
+using Edison.Castle.Clients.Data.Models;
 using PerpetualEngine.Storage;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.Http;
 using UIKit;
@@ -37,7 +39,8 @@ namespace CastleIOS
 				if (!string.IsNullOrEmpty(authToken))
 				{
 					LockService lockSvc = new LockService(storage.Get("AuthToken"));
-					bool lockResult = await lockSvc.GetLocksWithHttpClient();
+					IEnumerable<Lock> lockResult = await lockSvc.GetLocksWithHttpClient();
+                    storage.Put<IEnumerable<Lock>>("LocksList", lockResult);
 				}
 			}
 			catch(Exception ex)

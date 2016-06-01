@@ -22,7 +22,7 @@ namespace Edison.Castle.Clients.Data
 
         }
 
-        public async Task<bool> GetLocksWithHttpClient()
+        public async Task<IEnumerable<Lock>> GetLocksWithHttpClient()
         {
             HttpClient client = new HttpClient(new NativeMessageHandler());
             client.BaseAddress = new Uri("https://mmsdev.edprop.com/CastleAPI/");
@@ -43,7 +43,7 @@ namespace Edison.Castle.Clients.Data
                     IEnumerable<Lock> locks = JsonConvert.DeserializeObject<IEnumerable<Lock>>(context["Results"].ToString());
                     //Debug.WriteLine(locks.ToString());
 
-                    return (true);
+                    return (locks);
 
                     #region "Alternate way to Deserialize Json Arrays - override specific properties"
                     //JArray locksArray = JArray.Parse(context["Results"].ToString());
@@ -60,7 +60,7 @@ namespace Edison.Castle.Clients.Data
                 }
                 else
                 {
-                    return (false);
+                    return null;
                 }
             }
             catch(Exception ex)
@@ -69,7 +69,7 @@ namespace Edison.Castle.Clients.Data
 
             }
 
-            return (true);
+            return null;
 
 
         }
