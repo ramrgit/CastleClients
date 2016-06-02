@@ -22,6 +22,10 @@ namespace CastleIOS
 		[GeneratedCode ("iOS Designer", "1.0")]
 		UITextField txtLogin { get; set; }
 
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UITextField txtPassword { get; set; }
+
 		[Action ("btnLogin_TouchUpInside:")]
 		[GeneratedCode ("iOS Designer", "1.0")]
 		partial void btnLogin_TouchUpInside (UIButton sender);
@@ -35,6 +39,10 @@ namespace CastleIOS
 			if (txtLogin != null) {
 				txtLogin.Dispose ();
 				txtLogin = null;
+			}
+			if (txtPassword != null) {
+				txtPassword.Dispose ();
+				txtPassword = null;
 			}
 		}
 	}
