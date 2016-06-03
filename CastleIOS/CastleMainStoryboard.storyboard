@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6211" systemVersion="14A298i" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="40">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6204"/>
+    </dependencies>
+    <scenes>
+        <scene sceneID="39">
+            <objects>
+                <viewController id="40" sceneMemberID="viewController" customClass="MainViewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="37"/>
+                        <viewControllerLayoutGuide type="bottom" id="38"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="41">
+                        <rect key="frame" x="0.0" y="20" width="320" height="548"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" id="44" translatesAutoresizingMaskIntoConstraints="NO" image="edison-properties.png">
+                                <rect key="frame" x="52" y="45" width="160" height="240"/>
+                                <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
+                                    <rect key="frame" x="9" y="30" width="304" height="51"/>
+                                    <mask key="constraints">
+                                        <include reference="54"/>
+                                    </mask>
+                                </variation>
+                                <constraints>
+                                    <constraint id="54" firstAttribute="width" secondItem="44" secondAttribute="height" multiplier="304:51"/>
+                                </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="54"/>
+                                    </mask>
+                                </variation>
+                            </imageView>
+                        </subviews>
+                        <variation key="default">
+                            <mask key="subviews">
+                                <exclude reference="44"/>
+                            </mask>
+                            <mask key="constraints">
+                                <exclude reference="52"/>
+                                <exclude reference="53"/>
+                            </mask>
+                        </variation>
+                        <variation key="heightClass=regular-widthClass=compact">
+                            <mask key="subviews">
+                                <include reference="44"/>
+                            </mask>
+                            <mask key="constraints">
+                                <include reference="52"/>
+                                <include reference="53"/>
+                            </mask>
+                        </variation>
+                        <constraints>
+                            <constraint id="52" firstItem="44" firstAttribute="top" secondItem="37" secondAttribute="bottom" constant="10"/>
+                            <constraint id="53" firstItem="44" firstAttribute="leading" secondItem="41" secondAttribute="leading" constant="9"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="42" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-573" y="-1"/>
+        </scene>
+    </scenes>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedScreenMetrics key="destination" type="retina4"/>
+        <simulatedOrientationMetrics key="orientation"/>
+    </simulatedMetricsContainer>
+    <resources>
+        <image name="edison-properties.png" width="474" height="25"/>
+    </resources>
+</document>

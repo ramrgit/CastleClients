@@ -97,8 +97,13 @@
   <ItemGroup>
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
+    <InterfaceDefinition Include="CastleMainStoryboard.storyboard" />
     <None Include="GettingStarted.Xamarin" />
     <None Include="Info.plist" />
+    <Compile Include="MainView.cs" />
+    <Compile Include="MainView.designer.cs">
+      <DependentUpon>MainView.cs</DependentUpon>
+    </Compile>
     <Compile Include="MainViewController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <InterfaceDefinition Include="Resources\LaunchScreen.xib" />
@@ -129,6 +134,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Entitlements.plist" />
+    <BundleResource Include="Resources\edison-properties.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Castle.Clients.Data\Castle.Clients.Data.csproj">
