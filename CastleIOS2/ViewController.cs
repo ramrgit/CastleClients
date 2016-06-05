@@ -48,12 +48,8 @@ namespace CastleIOS2
                     {
                         GetLocks(authToken);
                     }
-                    else
-                    {
-                        this.Locks = LoadLockDetails();
-                        this.LocksTableView.DataSource = (UIKit.IUITableViewDataSource)this.Locks;
-                    }
-                    //display
+                    this.Locks = LoadLockDetails();
+                    this.LocksTableView.Source = new TableSource(this.Locks);
                 }
             }
             catch(Exception ex)
@@ -128,6 +124,7 @@ namespace CastleIOS2
             alert.Title = "Application Error";
             alert.AddButton("OK");
             alert.AlertViewStyle = UIAlertViewStyle.Default;
+            alert.Message = message;
             alert.Clicked += (object s, UIButtonEventArgs e) =>
             {
 
