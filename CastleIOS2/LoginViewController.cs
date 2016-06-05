@@ -3,6 +3,7 @@ using Foundation;
 using PerpetualEngine.Storage;
 using System;
 using System.CodeDom.Compiler;
+using System.Threading.Tasks;
 using UIKit;
 
 namespace CastleIOS2
@@ -35,6 +36,8 @@ namespace CastleIOS2
 			if (!string.IsNullOrEmpty(authToken))
 			{
 				storage.Put("AuthToken", authToken);
+				//raise the authsuccessful event.
+
 				this.DismissViewController(true, null);
 			}
 			else

@@ -1,4 +1,5 @@
 ﻿using CoreAnimation;
+using CoreLocation;
 using Edison.Castle.Clients.Data;
 using Edison.Castle.Clients.Data.Models;
 using HomeKit;
@@ -17,7 +18,6 @@ namespace CastleIOS2
     public partial class ViewController : UIViewController
     {
         private SimpleStorage storage = SimpleStorage.EditGroup("EdisonCastleCache");
-
         private IEnumerable<Lock> Locks { get; set; }
 
         public ViewController(IntPtr handle) : base(handle)
@@ -38,6 +38,7 @@ namespace CastleIOS2
                 {
                     //show the Login Screen
                     ShowLoginView();
+                    this.LoggedInLabel.Text = "Logged in as " + GetLoggedInUserName(authToken);
                 }
                 else
                 {
@@ -50,6 +51,10 @@ namespace CastleIOS2
                     }
                     this.Locks = LoadLockDetails();
                     this.LocksTableView.Source = new TableSource(this.Locks);
+                    foreach(Lock item in this.Locks)
+                    {
+                        AppDelegate.CastleLocationManager.StartMonitoring(Models.Region.InitializeRegion(item));
+                    }
                 }
             }
             catch(Exception ex)
@@ -77,14 +82,15 @@ namespace CastleIOS2
         private void ShowLoginView()
         {
             Timer tmr = new Timer(new TimerCallback((state) =>
-           {
-               this.InvokeOnMainThread(new Action(() => 
-               {
-                   var storyBoard = this.Storyboard;
-                   var loginViewController = (LoginViewController)Storyboard.InstantiateViewController("LoginViewController");
-                   this.PresentViewController(loginViewController, true, null);
-               }));
-           }), null, 1000, Timeout.Infinite);
+            {
+                this.InvokeOnMainThread(new Action(() => 
+                {
+                    var storyBoard = this.Storyboard;
+                    var loginViewController = (LoginViewController)Storyboard.InstantiateViewController("LoginViewController");
+                    this.PresentViewController(loginViewController, true, null);
+                }));
+            }), null, 1000, Timeout.Infinite);
+
         }
 
 

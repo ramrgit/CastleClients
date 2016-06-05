@@ -111,15 +111,34 @@ namespace Edison.Castle.Clients.Data
         }
 
 
-        public bool Unlock(Guid lockId)
+        public async Task<bool> Unlock(Guid lockId)
         {
+            HttpClient client = new HttpClient(new NativeMessageHandler());
+            client.BaseAddress = new Uri("https://mmsdev.edprop.com/CastleAPI/");
+            string resultJson = string.Empty;
 
-            //make a rest call the api to unlock this specific lock
+            try
+            {
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("appliation/json"));
+                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", _authToken);
 
-            //the api will need the authenticated header in the rest call
+                HttpResponseMessage response = await client.GetAsync("api/locks/unlock/" + lockId.ToString());
 
-            return false;
-
+                if (response.IsSuccessStatusCode)
+                {
+                    return (true);
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                //Debug.WriteLine(ex.ToString());
+                throw (ex);
+            }
         }
     }
 }

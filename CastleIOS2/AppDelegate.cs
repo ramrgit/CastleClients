@@ -1,4 +1,5 @@
-﻿using Foundation;
+﻿using CoreLocation;
+using Foundation;
 using UIKit;
 
 namespace CastleIOS2
@@ -15,6 +16,20 @@ namespace CastleIOS2
         {
             get;
             set;
+        }
+
+        private static CLLocationManager _locationManager;
+        public static CLLocationManager CastleLocationManager
+        {
+            get
+            {
+                if (_locationManager == null)
+                {
+                    _locationManager = new CLLocationManager();
+                    _locationManager.Delegate = new Models.CoreLocation();
+                }
+                return _locationManager;
+            }
         }
 
         public override bool FinishedLaunching(UIApplication application, NSDictionary launchOptions)
