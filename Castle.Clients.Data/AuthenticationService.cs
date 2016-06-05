@@ -53,8 +53,21 @@ namespace Edison.Castle.Clients.Data
                 //Debug.WriteLine(ex);
                 throw (ex);
             }
-            
-       
+        }
+
+
+        public string GetLoggedInUser(string authToken)
+        {
+            try
+            {
+                byte[] credByte = Convert.FromBase64String(authToken);
+                string decodedString = Encoding.ASCII.GetString(credByte);
+                return(decodedString.Substring(0, decodedString.IndexOf(":")));
+            }
+            catch(Exception ex)
+            {
+                throw (ex);
+            }
         }
     }
 }

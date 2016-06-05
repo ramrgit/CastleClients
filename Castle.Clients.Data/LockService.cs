@@ -68,11 +68,42 @@ namespace Edison.Castle.Clients.Data
                 //Debug.WriteLine(ex.ToString());
 
             }
-
             return null;
-
-
         }
+
+
+        public async Task<string> GetLocksString()
+        {
+            HttpClient client = new HttpClient(new NativeMessageHandler());
+            client.BaseAddress = new Uri("https://mmsdev.edprop.com/CastleAPI/");
+            string resultJson = string.Empty;
+
+            try
+            {
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("appliation/json"));
+                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", _authToken);
+
+                HttpResponseMessage response = await client.GetAsync("api/locks");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    resultJson = await response.Content.ReadAsStringAsync();
+                    return (resultJson);
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                //Debug.WriteLine(ex.ToString());
+
+            }
+            return null;
+        }
+
 
 
         public void GetLocksWithWebRequest()

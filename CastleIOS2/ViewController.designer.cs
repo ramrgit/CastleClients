@@ -16,10 +16,30 @@ namespace CastleIOS2
 	{
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
+		UIButton AboutButton { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UITableView LocksTableView { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		UILabel LoggedInLabel { get; set; }
+
+		[Action ("AboutButton_TouchUpInside:")]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		partial void AboutButton_TouchUpInside (UIButton sender);
 
 		void ReleaseDesignerOutlets ()
 		{
+			if (AboutButton != null) {
+				AboutButton.Dispose ();
+				AboutButton = null;
+			}
+			if (LocksTableView != null) {
+				LocksTableView.Dispose ();
+				LocksTableView = null;
+			}
 			if (LoggedInLabel != null) {
 				LoggedInLabel.Dispose ();
 				LoggedInLabel = null;
