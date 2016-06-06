@@ -66,9 +66,8 @@ namespace Edison.Castle.Clients.Data
             catch(Exception ex)
             {
                 //Debug.WriteLine(ex.ToString());
-
+                throw (ex);
             }
-            return null;
         }
 
 
