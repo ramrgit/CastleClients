@@ -11,39 +11,46 @@ using UIKit;
 
 namespace CastleIOS2
 {
-	[Register ("ViewController")]
-	partial class ViewController
-	{
-		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		UIButton AboutButton { get; set; }
+    [Register ("ViewController")]
+    partial class ViewController
+    {
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIButton AboutButton { get; set; }
 
-		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		UITableView LocksTableView { get; set; }
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UITableView LocksTableView { get; set; }
 
-		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		UILabel LoggedInLabel { get; set; }
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UILabel LoggedInLabel { get; set; }
 
-		[Action ("AboutButton_TouchUpInside:")]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		partial void AboutButton_TouchUpInside (UIButton sender);
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIButton RefreshButton { get; set; }
 
-		void ReleaseDesignerOutlets ()
-		{
-			if (AboutButton != null) {
-				AboutButton.Dispose ();
-				AboutButton = null;
-			}
-			if (LocksTableView != null) {
-				LocksTableView.Dispose ();
-				LocksTableView = null;
-			}
-			if (LoggedInLabel != null) {
-				LoggedInLabel.Dispose ();
-				LoggedInLabel = null;
-			}
-		}
-	}
+        void ReleaseDesignerOutlets ()
+        {
+            if (AboutButton != null) {
+                AboutButton.Dispose ();
+                AboutButton = null;
+            }
+
+            if (LocksTableView != null) {
+                LocksTableView.Dispose ();
+                LocksTableView = null;
+            }
+
+            if (LoggedInLabel != null) {
+                LoggedInLabel.Dispose ();
+                LoggedInLabel = null;
+            }
+
+            if (RefreshButton != null) {
+                RefreshButton.Dispose ();
+                RefreshButton = null;
+            }
+        }
+    }
 }

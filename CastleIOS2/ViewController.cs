@@ -2,6 +2,7 @@
 using CoreLocation;
 using Edison.Castle.Clients.Data;
 using Edison.Castle.Clients.Data.Models;
+using Foundation;
 using HomeKit;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -20,6 +21,9 @@ namespace CastleIOS2
         private SimpleStorage storage = SimpleStorage.EditGroup("EdisonCastleCache");
         private IEnumerable<Lock> Locks { get; set; }
 
+        private CLLocationManager _locationManager;
+        private Guid NearestLockUuid;
+
         public ViewController(IntPtr handle) : base(handle)
         {
         }
@@ -28,6 +32,18 @@ namespace CastleIOS2
         {
             base.ViewDidLoad();
             // Perform any additional setup after loading the view, typically from a nib.
+            AboutButton.TouchUpInside += AboutButton_TouchUpInside;
+            RefreshButton.TouchUpInside += RefreshButton_TouchUpInside;
+
+
+            //set up the CoreLocation services
+            _locationManager = new CLLocationManager();
+            _locationManager.AuthorizationChanged += LocationManager_AuthorizationChanged;
+            _locationManager.RequestAlwaysAuthorization();
+            _locationManager.DidRangeBeacons += LocationManager_DidRangeBeacons; 
+             
+
+
             //check if authToken is present and not empty
             string authToken = string.Empty;
             try
@@ -51,10 +67,6 @@ namespace CastleIOS2
                     }
                     this.Locks = LoadLockDetails();
                     this.LocksTableView.Source = new TableSource(this.Locks);
-                    foreach(Lock item in this.Locks)
-                    {
-                        AppDelegate.CastleLocationManager.StartMonitoring(Models.Region.InitializeRegion(item));
-                    }
                 }
             }
             catch(Exception ex)
@@ -65,6 +77,37 @@ namespace CastleIOS2
 
         }
 
+        private void RefreshButton_TouchUpInside(object sender, EventArgs e)
+        {
+            GetLocks(storage.Get("AuthToken"));
+            this.Locks = LoadLockDetails();
+        }
+
+        private void AboutButton_TouchUpInside(object sender, EventArgs e)
+        {
+            var storyBoard = this.Storyboard;
+            var aboutViewController = (AboutViewController)storyBoard.InstantiateViewController("AboutViewController");
+            this.PresentViewController(aboutViewController, true, null);
+        }
+
+        private void LocationManager_DidRangeBeacons(object sender, CLRegionBeaconsRangedEventArgs e)
+        {
+            if(e.Beacons.Any(m => m.Rssi < 0))  //ignore any 0 values and find the nearest beacon.
+            {
+                var nearestBeacon = e.Beacons.OrderBy(x => x.Rssi).FirstOrDefault();
+                this.NearestLockUuid = Guid.Parse(nearestBeacon.ProximityUuid.ToString());
+            }
+
+        }
+
+        private void LocationManager_AuthorizationChanged(object sender, CLAuthorizationChangedEventArgs e)
+        {
+            foreach (Lock item in this.Locks)
+            {
+                CLBeaconRegion region = new CLBeaconRegion(new NSUuid(item.LockUUID.ToString()), item.LockName);
+                _locationManager.StartRangingBeacons(region);
+            }
+        }
 
         public override void DidReceiveMemoryWarning()
         {
@@ -72,12 +115,13 @@ namespace CastleIOS2
             // Release any cached data, images, etc that aren't in use.
         }
 
-        partial void AboutButton_TouchUpInside(UIButton sender)
-        {
-            var storyBoard = this.Storyboard;
-            var aboutViewController = (AboutViewController)storyBoard.InstantiateViewController("AboutViewController");
-            this.PresentViewController(aboutViewController, true, null);
-        }
+        //partial void AboutButton_TouchUpInside(UIButton sender)
+        //{
+        //    var storyBoard = this.Storyboard;
+        //    var aboutViewController = (AboutViewController)storyBoard.InstantiateViewController("AboutViewController");
+        //    this.PresentViewController(aboutViewController, true, null);
+        //}
+   
 
         private void ShowLoginView()
         {

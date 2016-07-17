@@ -38,5 +38,10 @@ namespace CastleIOS2
         {
             return LocksList.Count();
         }
+
+        public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
+        {
+            base.RowSelected(tableView, indexPath);
+        }
     }
 }
