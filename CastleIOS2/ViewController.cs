@@ -10,6 +10,7 @@ using PerpetualEngine.Storage;
 using SpriteKit;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using UIKit;
@@ -19,6 +20,7 @@ namespace CastleIOS2
     public partial class ViewController : UIViewController
     {
         private SimpleStorage storage = SimpleStorage.EditGroup("EdisonCastleCache");
+        LockService _lockSvc;
         private IEnumerable<Lock> Locks { get; set; }
 
         private CLLocationManager _locationManager;
@@ -33,8 +35,6 @@ namespace CastleIOS2
             base.ViewDidLoad();
             // Perform any additional setup after loading the view, typically from a nib.
             AboutButton.TouchUpInside += AboutButton_TouchUpInside;
-            RefreshButton.TouchUpInside += RefreshButton_TouchUpInside;
-
 
             //set up the CoreLocation services
             _locationManager = new CLLocationManager();
@@ -58,6 +58,7 @@ namespace CastleIOS2
                 }
                 else
                 {
+                    _lockSvc = new LockService(authToken);
                     LoggedInLabel.Text = "Logged in as " + GetLoggedInUserName(authToken);
                     IEnumerable<Lock> locksList;
                     locksList = storage.Get<IEnumerable<Lock>>("LocksList");
@@ -77,11 +78,6 @@ namespace CastleIOS2
 
         }
 
-        private void RefreshButton_TouchUpInside(object sender, EventArgs e)
-        {
-            GetLocks(storage.Get("AuthToken"));
-            this.Locks = LoadLockDetails();
-        }
 
         private void AboutButton_TouchUpInside(object sender, EventArgs e)
         {
@@ -92,12 +88,72 @@ namespace CastleIOS2
 
         private void LocationManager_DidRangeBeacons(object sender, CLRegionBeaconsRangedEventArgs e)
         {
+            CLBeacon nearestBeacon = null;
+
             if(e.Beacons.Any(m => m.Rssi < 0))  //ignore any 0 values and find the nearest beacon.
             {
-                var nearestBeacon = e.Beacons.OrderBy(x => x.Rssi).FirstOrDefault();
-                this.NearestLockUuid = Guid.Parse(nearestBeacon.ProximityUuid.ToString());
+                foreach (CLBeacon beacon in e.Beacons)
+                {
+                    Debug.WriteLine("Found beacon {0} {1}.{2} - rssi {3}", beacon.ProximityUuid.AsString(), beacon.Major, beacon.Minor, beacon.Rssi);
+                    //var nearestBeacon = e.Beacons.OrderBy(x => x.Rssi).FirstOrDefault();
+
+                    if (nearestBeacon == null)
+                    {
+                        nearestBeacon = beacon;
+                    }
+                    else if (beacon.Rssi > nearestBeacon.Rssi)
+                    {
+                        nearestBeacon = beacon;
+                    }
+                    this.NearestLockUuid = Guid.Parse(nearestBeacon.ProximityUuid.AsString());
+                    Debug.WriteLine("Nearest beacon is {0}", this.NearestLockUuid);
+
+                    //now that we have the nearest beacon, check if rssi is > -50 (or config value) and then send unlock request
+                    if(nearestBeacon.Rssi > -50)
+                    {
+                        //stop ranging -? nned to have the CLregion
+                        //_locationManager.RangedRegions.Where(x => x.re)
+                        StopAllRanging();
+
+                        //send unlock requests
+                        Debug.WriteLine("Sending Unlock request");
+                        SendUnlockRequest();
+                        Debug.WriteLine("Unlock request sent");
+
+
+                        Thread.Sleep(15000);
+                        //start ranging
+                        StartAllRanging();
+                    }
+                }
             }
 
+        }
+
+
+        private void StopAllRanging()
+        {
+            foreach(Lock item in this.Locks)
+            {
+                CLBeaconRegion region = new CLBeaconRegion(new NSUuid(item.LockUUID.ToString()), item.LockName);
+                _locationManager.StopRangingBeacons(region);
+            }
+        }
+
+        private void StartAllRanging()
+        {
+            foreach (Lock item in this.Locks)
+            {
+                CLBeaconRegion region = new CLBeaconRegion(new NSUuid(item.LockUUID.ToString()), item.LockName);
+                _locationManager.StartRangingBeacons(region);
+            }
+
+        }
+
+        private async void SendUnlockRequest()
+        {
+            Lock nearestLock = this.Locks.Where(x => x.LockUUID == this.NearestLockUuid).FirstOrDefault();
+            bool unlockResult = await _lockSvc.Unlock(nearestLock.LockId);
         }
 
         private void LocationManager_AuthorizationChanged(object sender, CLAuthorizationChangedEventArgs e)
@@ -146,10 +202,17 @@ namespace CastleIOS2
 
         private async void GetLocks(string authToken)
         {
-            LockService lockSvc = new LockService(authToken);
+            
             //IEnumerable<Lock> locksList = await lockSvc.GetLocksWithHttpClient();
-            string locksList = await lockSvc.GetLocksString();
+            string locksList = await _lockSvc.GetLocksString();
             storage.Put("LocksList", locksList);
+        }
+
+
+        private async void SendUnlockRequest(string authToken, Guid lockId)
+        {
+           
+            bool retValue = await _lockSvc.Unlock(lockId);
         }
 
         private IEnumerable<Lock> LoadLockDetails()

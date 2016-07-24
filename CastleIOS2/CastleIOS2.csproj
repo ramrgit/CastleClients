@@ -95,7 +95,9 @@
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
     <None Include="GettingStarted.Xamarin" />
-    <None Include="Info.plist" />
+    <None Include="Info.plist">
+      <SubType>Designer</SubType>
+    </None>
     <Compile Include="Models\Beacon.cs" />
     <Compile Include="Models\CoreLocation.cs" />
     <Compile Include="Models\Region.cs" />

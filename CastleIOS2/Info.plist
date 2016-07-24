@@ -34,5 +34,7 @@
 	<array>
 		<string>Icon-Small-40@2x.png</string>
 	</array>
+  <key>NSLocationAlwaysUsageDescription</key>
+  <string>Edison Properties Castle needs location services in order to automatically unlock doors with your phone</string>
 </dict>
 </plist>

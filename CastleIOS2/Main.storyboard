@@ -23,8 +23,8 @@
                                     <accessibilityTraits key="traits" none="YES" notEnabled="YES" image="YES"/>
                                 </accessibility>
                                 <constraints>
-                                    <constraint id="8" firstItem="3" firstAttribute="width" constant="287"/>
-                                    <constraint id="10" firstItem="3" firstAttribute="height" constant="50"/>
+                                    <constraint id="145" firstAttribute="width" constant="287"/>
+                                    <constraint id="146" firstAttribute="height" constant="50"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" lineBreakMode="tailTruncation" minimumFontSize="10" id="11" translatesAutoresizingMaskIntoConstraints="NO" text="x">
@@ -52,7 +52,7 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoDark" lineBreakMode="middleTruncation" id="99" translatesAutoresizingMaskIntoConstraints="NO" fixedFrame="YES">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoDark" lineBreakMode="middleTruncation" id="99" translatesAutoresizingMaskIntoConstraints="NO">
                                 <rect key="frame" x="278" y="414" width="22" height="22"/>
                                 <state key="normal">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -70,17 +70,8 @@
                                     <action selector="Refresh_TouchUpInside:" destination="BYZ-38-t0r" id="130" eventType="touchUpInside"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="131" translatesAutoresizingMaskIntoConstraints="NO" fixedFrame="YES">
-                                <rect key="frame" x="86" y="134" width="48" height="30"/>
-                                <state key="normal" title="Refresh">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                            </button>
                         </subviews>
                         <constraints>
-                            <constraint id="6" firstItem="8bC-Xf-vdC" firstAttribute="trailing" secondItem="3" secondAttribute="trailing" constant="13"/>
-                            <constraint id="7" firstItem="3" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom"/>
-                            <constraint id="9" firstItem="3" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="20"/>
                             <constraint id="12" firstItem="8bC-Xf-vdC" firstAttribute="trailing" secondItem="11" secondAttribute="trailing" constant="20"/>
                             <constraint id="13" firstItem="11" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" constant="75"/>
                             <constraint id="16" firstItem="11" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="20"/>
@@ -90,6 +81,10 @@
                             <constraint id="40" firstItem="8bC-Xf-vdC" firstAttribute="trailing" secondItem="17" secondAttribute="trailing" constant="32"/>
                             <constraint id="42" firstItem="17" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="155"/>
                             <constraint id="120" firstItem="8bC-Xf-vdC" firstAttribute="trailing" secondItem="32" secondAttribute="trailing" constant="222"/>
+                            <constraint id="137" firstItem="8bC-Xf-vdC" firstAttribute="trailing" secondItem="99" secondAttribute="trailing" constant="20"/>
+                            <constraint id="138" firstItem="8bC-Xf-vdC" firstAttribute="bottom" secondItem="99" secondAttribute="bottom" constant="44"/>
+                            <constraint id="143" firstItem="8bC-Xf-vdC" firstAttribute="trailing" secondItem="3" secondAttribute="trailing" constant="13"/>
+                            <constraint id="144" firstItem="3" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" constant="20"/>
                         </constraints>
                     </view>
                     <connections>
