@@ -58,6 +58,8 @@ namespace CastleIOS2
                 }
                 else
                 {
+                    ShowLocksView();
+
                     _lockSvc = new LockService(authToken);
                     LoggedInLabel.Text = "Logged in as " + GetLoggedInUserName(authToken);
                     IEnumerable<Lock> locksList;
@@ -109,7 +111,7 @@ namespace CastleIOS2
                     Debug.WriteLine("Nearest beacon is {0}", this.NearestLockUuid);
 
                     //now that we have the nearest beacon, check if rssi is > -50 (or config value) and then send unlock request
-                    if(nearestBeacon.Rssi > -50)
+                    if(nearestBeacon.Rssi > -60)
                     {
                         //stop ranging -? nned to have the CLregion
                         //_locationManager.RangedRegions.Where(x => x.re)
@@ -158,10 +160,13 @@ namespace CastleIOS2
 
         private void LocationManager_AuthorizationChanged(object sender, CLAuthorizationChangedEventArgs e)
         {
-            foreach (Lock item in this.Locks)
+            if (this.Locks != null)
             {
-                CLBeaconRegion region = new CLBeaconRegion(new NSUuid(item.LockUUID.ToString()), item.LockName);
-                _locationManager.StartRangingBeacons(region);
+                foreach (Lock item in this.Locks)
+                {
+                    CLBeaconRegion region = new CLBeaconRegion(new NSUuid(item.LockUUID.ToString()), item.LockName);
+                    _locationManager.StartRangingBeacons(region);
+                }
             }
         }
 
@@ -193,6 +198,19 @@ namespace CastleIOS2
 
         }
 
+
+        private void ShowLocksView()
+        {
+            Timer tmr = new Timer(new TimerCallback((state) =>
+            {
+                this.InvokeOnMainThread(new Action(() =>
+                {
+                    var storyBoard = this.Storyboard;
+                    var locksViewController = (LocksViewController)Storyboard.InstantiateViewController("LocksViewController");
+                    this.PresentViewController(locksViewController, true, null);
+                }));
+            }), null, 1000, Timeout.Infinite);
+        }
 
         private string GetLoggedInUserName(string authToken)
         {

@@ -88,6 +88,10 @@
     <Compile Include="AboutViewController.designer.cs">
       <DependentUpon>AboutViewController.cs</DependentUpon>
     </Compile>
+    <Compile Include="LocksViewController.cs" />
+    <Compile Include="LocksViewController.designer.cs">
+      <DependentUpon>LocksViewController.cs</DependentUpon>
+    </Compile>
     <Compile Include="LoginViewController.cs" />
     <Compile Include="LoginViewController.designer.cs">
       <DependentUpon>LoginViewController.cs</DependentUpon>
@@ -111,7 +115,9 @@
     </Compile>
     <Compile Include="ViewController.cs" />
     <InterfaceDefinition Include="Main.storyboard" />
-    <InterfaceDefinition Include="Resources\LaunchScreen.xib" />
+    <InterfaceDefinition Include="Resources\LaunchScreen.xib">
+      <SubType>Designer</SubType>
+    </InterfaceDefinition>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
